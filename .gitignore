@@ -1,0 +1,35 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+.venv/
+.env
+
+# Torch / training artefacts
+runs/
+checkpoints/
+*.pt
+*.pth
+
+# Data
+data/
+*.npy
+*.npz
+*.jsonl
+*.csv
+
+# Logs
+logs/
+wandb/
+
+# OS nonsense
+.DS_Store
+Thumbs.db
+
+# Virtual environments
+.venv/
+.venv311/
+venv/
+env/
