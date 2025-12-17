@@ -14,11 +14,9 @@ checkpoints/
 *.pth
 
 # Data
-data/
-*.npy
-*.npz
-*.jsonl
-*.csv
+data/**
+
+!data/*.py
 
 # Logs
 logs/
@@ -33,3 +31,13 @@ Thumbs.db
 .venv311/
 venv/
 env/
+
+
+# Large data formats
+*.csv
+*.jsonl
+*.parquet
+*.npz
+*.pt
+*.bin
+*.pkl
