@@ -19,8 +19,6 @@ def load_label_embeddings(path, mappers, dim):
         for code, idx in mapping.items():
             if code in level_embs:
                 emb[idx] = torch.tensor(level_embs[code], dtype=torch.float32)
-
-        # normalize AFTER emb is definitely defined
         emb = F.normalize(emb, dim=1)
 
         out[level] = emb
