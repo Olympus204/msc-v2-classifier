@@ -35,7 +35,7 @@ class MSCDataset(Dataset):
     def __getitem__(self, idx):
         shard_path, line_no = self.index[idx]
 
-        # Load + cache shard
+        #Load + cache shard
         if shard_path not in self._shard_cache:
             with gzip.open(shard_path, "rt", encoding="utf-8") as f:
                 rows = [json.loads(line) for line in f]
@@ -69,7 +69,7 @@ class MSCDataset(Dataset):
 
 
 def collate_fn(batch):
-    # Hard sanity check so this never silently breaks again
+    #Hard sanity check so this never silently breaks again
     for x in batch:
         for k in ("root", "mid", "full"):
             assert isinstance(x["labels"][k], torch.Tensor), (
