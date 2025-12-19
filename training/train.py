@@ -14,7 +14,7 @@ from training.build import (
     build_loss,
     build_optimizer,
     build_tokenizer,
-    build_mappers,   # wherever your MSC vocab lives
+    build_mappers,
 )
 from training.validate import validate
 from data.dataset import MSCDataset, collate_fn
@@ -132,7 +132,7 @@ def main():
 
     device = config.DEVICE
 
-    # --- Build components ---
+    #Build components
     tokenizer = build_tokenizer()
     mappers = build_mappers()
     model = build_model(mappers)
@@ -262,9 +262,7 @@ def main():
 
     print(f"[RUN] Using run directory: {RUN_DIR}")
 
-
-
-    # --- Build datasets ---
+    #Build datasets
 
     train_shards = config.TRAIN_SHARDS
     val_shards = config.VAL_SHARDS
@@ -287,7 +285,7 @@ def main():
         max_len=config.MAX_LEN,
     )
 
-    # --- DataLoaders ---
+    #DataLoaders
     train_loader = DataLoader(
         train_dataset,
         batch_size=config.BATCH_SIZE,
@@ -320,7 +318,7 @@ def main():
     else:
         resume_phase_index = 0
 
-    # --- Training loop ---
+    #Training loop
     for i, phase in enumerate(config.PHASES):
         phase_name = phase["name"]
 
@@ -418,7 +416,7 @@ def main():
                 loss.backward()
                 optimizer.step()
 
-                # --- metrics ---
+                #metrics
                 running_loss += loss.item()
 
                 with torch.no_grad():
@@ -515,7 +513,7 @@ def main():
                     print(f"[SAVE] New best full model: F1={best_full_f1:.3f}")
 
 
-        # ---- validation (per phase) ----
+        #validation (per phase)
         metrics = validate(model, val_loader, device)
 
         print(
