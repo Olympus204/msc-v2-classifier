@@ -9,34 +9,32 @@ class MSCLoss(nn.Module):
         self.w = loss_weights
         self.mid_full_mask = mid_full_mask
 
-        # Loss primitives
         self.ce_root = nn.CrossEntropyLoss()
         self.bce = nn.BCEWithLogitsLoss()
 
     def forward(self, outputs, labels, train_heads, soft_targets=None, alpha=0.0):
         loss = 0.0
 
-        # --- ROOT ---
+        #ROOT
         if "root" in train_heads:
             loss += self.w["root"] * self.ce_root(
                 outputs["root"],
                 labels["root"].argmax(dim=1)
             )
 
-        # --- MID ---
+        #MID
         if "mid" in train_heads:
             loss += self.w["mid"] * self.bce(
                 outputs["mid"],
                 labels["mid"]
             )
 
-        # --- FULL ---
+        #FULL
         if "full" in train_heads:
             logits = outputs["full"]
 
-            # Apply mid→full constraint if present
             if self.mid_full_mask is not None:
-                allowed = labels["mid"] @ self.mid_full_mask   # [B, n_full]
+                allowed = labels["mid"] @ self.mid_full_mask
                 logits = logits.masked_fill(~allowed.bool(), float("-inf"))
 
             hard = self.bce(logits, labels["full"])
