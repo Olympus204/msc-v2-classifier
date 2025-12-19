@@ -22,10 +22,8 @@ def validate(model, dataloader, device: str, topk_root: int = 1):
 
         logits = model(input_ids, attention_mask)
 
-        # Root: treat as multilabel; top-k accuracy is a decent “is it pointing at the right roots” metric
         total_root_topk += multilabel_topk_accuracy(logits["root"], labels["root"], k=topk_root)
 
-        # Mid/full: micro-F1 at threshold 0.5 (simple baseline)
         total_mid_f1 += multilabel_micro_f1(logits["mid"], labels["mid"], threshold=0.5)
         total_full_f1 += multilabel_micro_f1(logits["full"], labels["full"], threshold=0.5)
 
