@@ -21,11 +21,10 @@ def multilabel_micro_f1(logits: torch.Tensor, targets: torch.Tensor, threshold: 
 
 @torch.no_grad()
 def multilabel_topk_accuracy(logits, targets, k=5):
-    # logits: [B, C]
-    # targets: [B, C] (multi-hot, float/bool)
+    #logits: [B, C]
+    #targets: [B, C] (multi-hot, float/bool)
 
     if targets.dim() == 1:
-        # If someone handed us [C], pretend batch=1
         targets = targets.unsqueeze(0)
     if logits.dim() == 1:
         logits = logits.unsqueeze(0)
@@ -34,11 +33,11 @@ def multilabel_topk_accuracy(logits, targets, k=5):
     if targets.size(1) != C:
         raise ValueError(f"targets has C={targets.size(1)} but logits has C={C}")
 
-    k = min(k, C)  # critical
+    k = min(k, C)  #critical
 
-    topk = torch.topk(logits, k=k, dim=1).indices  # [B, k]
+    topk = torch.topk(logits, k=k, dim=1).indices
 
-    # extra paranoia: assert indices valid
+    #extra paranoia: assert indices valid
     if topk.max().item() >= C or topk.min().item() < 0:
         raise ValueError(f"topk indices out of range: min={topk.min().item()} max={topk.max().item()} C={C}")
 
