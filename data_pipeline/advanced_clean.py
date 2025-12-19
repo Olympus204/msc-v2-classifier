@@ -12,7 +12,6 @@ def clean_text(text):
     text = re.sub(r"\\[a-zA-Z]+\{([^{}]*)\}", r"\1", text)
     text = re.sub(r"\\[a-zA-Z]+", " ", text)
     text = text.replace("\u00ad", "")
-    # Replace escaped characters
     replacements = {
         r"\&": "&",
         r"\%": "%",
@@ -21,16 +20,9 @@ def clean_text(text):
     }
     for k, v in replacements.items():
         text = text.replace(k, v)
-
-    # Remove leftover braces
     text = text.replace("{", " ").replace("}", " ")
-
-    # Replace backslashes used as linebreaks
     text = text.replace("\\", " ")
-
-    # Collapse whitespace
     text = re.sub(r"\s+", " ", text)
-
     return text.strip()
 
 def clean_keywords(keywords_raw):
