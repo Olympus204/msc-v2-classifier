@@ -3,7 +3,6 @@ import json
 import torch
 
 def _build_matrix(code_to_idx: dict, emb_dict: dict, dim: int):
-    # [C, dim] aligned with mapper indices
     C = len(code_to_idx)
     M = torch.zeros(C, dim, dtype=torch.float32)
 
