@@ -31,8 +31,7 @@ class GraphLabelHead(nn.Module):
         self.has_graph = label_emb is not None
 
         if self.has_graph:
-            # trainable label embeddings (fine for now)
-            self.label_emb = nn.Parameter(label_emb)   # [C, graph_dim]
+            self.label_emb = nn.Parameter(label_emb)
             self.proj = nn.Linear(in_dim, graph_dim)
 
     def forward(self, z, return_parts: bool = False):
@@ -51,10 +50,10 @@ class GraphLabelHead(nn.Module):
                 return text_logits, text_logits, None
             return text_logits
 
-        z_g = F.normalize(self.proj(z), dim=-1)      # [B, graph_dim]
-        E   = F.normalize(self.label_emb, dim=-1)   # [C, graph_dim]
+        z_g = F.normalize(self.proj(z), dim=-1)
+        E   = F.normalize(self.label_emb, dim=-1)
 
-        graph_logits = z_g @ E.t()                   # [B, C]
+        graph_logits = z_g @ E.t()
         combined = text_logits + self.lambda_graph * graph_logits
 
         if return_parts:
