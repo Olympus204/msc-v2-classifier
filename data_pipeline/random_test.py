@@ -29,6 +29,6 @@ def test_random_row(rows):
         print("ERROR during cleaning:", e)
 
 if __name__ == "__main__":
-    path = r"C:\Projects\MSCV2\data\master_dataset.csv"   # change this
-    rows = load_raw_data(path, max_rows=5000)       # load first 5k rows
+    path = r"C:\Projects\MSCV2\data\master_dataset.csv"
+    rows = load_raw_data(path, max_rows=5000)
     test_random_row(rows)
