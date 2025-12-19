@@ -11,7 +11,6 @@ with open(INFILE, newline="", encoding="utf-8", errors="ignore") as fin, \
     reader = csv.reader(fin)
     writer = csv.writer(fout)
 
-    # Write clean header
     writer.writerow([
         "id",
         "doi",
@@ -22,10 +21,9 @@ with open(INFILE, newline="", encoding="utf-8", errors="ignore") as fin, \
         "refs"
     ])
 
-    header = next(reader)  # skip original header
+    header = next(reader)
 
     for i, row in enumerate(reader, start=1):
-        # Defensive: some rows may be shorter or longer
         if len(row) < 6:
             continue
 
